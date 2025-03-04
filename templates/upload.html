@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Pole Images</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f2f2f2;
+        }
+        .upload-container {
+            margin-top: 30px;
+            border: 2px dashed #ccc;
+            padding: 30px;
+            background-color: #fff;
+            text-align: center;
+            position: relative;
+        }
+        .upload-container.dragover {
+            border-color: #333;
+        }
+        .upload-container input[type="file"] {
+            display: none;
+        }
+        .preview-images .image-preview {
+            margin-bottom: 20px;
+        }
+        .preview-images img {
+            max-width: 150px;
+            border: 1px solid #ddd;
+            padding: 5px;
+            background-color: #fff;
+            margin-bottom: 10px;
+        }
+        .additional-info-textarea {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Pole Inspection</a>
+    </nav>
+
+    <div class="container">
+        <h1 class="text-center mt-5">Upload Pole Images to Generate Reports</h1>
+        <form action="/upload" method="POST" enctype="multipart/form-data" id="upload-form">
+            <div class="upload-container mt-4" id="upload-container">
+                <label for="images">Drag & drop images here, or click to select files</label>
+                <input type="file" name="images" id="images" multiple accept="image/*">
+            </div>
+            <div class="preview-images row mt-4" id="preview-images"></div>
+
+            <!-- Additional Information Text Area -->
+            <div class="form-group" id="additional-info">
+                <label for="additional_info">Additional Information (e.g., location, environmental conditions):</label>
+                <textarea class="form-control" name="additional_info" id="additional_info" rows="4" placeholder="Enter any additional information here..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block mt-4" id="submit-button">
+                Upload and Generate Reports
+            </button>
+        </form>
+    </div>
+
+    <!-- Loading Animation (Hidden) -->
+    <div id="loading" style="display:none; text-align:center; margin-top:20px;">
+        <img src="https://i.imgur.com/LLF5iyg.gif" alt="Loading..." width="100">
+        <p>Generating reports, please wait...</p>
+    </div>
+
+    <!-- Include Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script>
+        const uploadContainer = document.getElementById('upload-container');
+        const imagesInput = document.getElementById('images');
+        const previewImages = document.getElementById('preview-images');
+        const submitButton = document.getElementById('submit-button');
+        const uploadForm = document.getElementById('upload-form');
+        const loadingDiv = document.getElementById('loading');
+
+        // Prevent default behaviors
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadContainer.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        // Highlight on dragover
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadContainer.addEventListener(eventName, () => uploadContainer.classList.add('dragover'), false);
+        });
+
+        // Remove highlight on dragleave or drop
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadContainer.addEventListener(eventName, () => uploadContainer.classList.remove('dragover'), false);
+        });
+
+        // Handle dropped files
+        uploadContainer.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles(files);
+        }
+
+        // Handle click to select files
+        uploadContainer.addEventListener('click', () => imagesInput.click());
+
+        imagesInput.addEventListener('change', () => {
+            const files = imagesInput.files;
+            handleFiles(files);
+        });
+
+        function handleFiles(files) {
+            // Clear preview area
+            previewImages.innerHTML = '';
+
+            // Create a new DataTransfer object
+            const dataTransfer = new DataTransfer();
+
+            for (let i = 0; i < files.length; i++) {
+                previewFile(files[i]);
+                dataTransfer.items.add(files[i]);
+            }
+
+            // Update the input's files property
+            imagesInput.files = dataTransfer.files;
+        }
+
+        function previewFile(file) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onloadend = () => {
+                const col = document.createElement('div');
+                col.classList.add('col-md-3');
+                const img = document.createElement('img');
+                img.src = reader.result;
+                img.classList.add('img-fluid');
+                col.appendChild(img);
+                previewImages.appendChild(col);
+            };
+        }
+
+        // Submit form and show loading animation
+        uploadForm.addEventListener('submit', (e) => {
+            submitButton.disabled = true;
+            submitButton.innerHTML = 'Processing...';
+            loadingDiv.style.display = 'block';
+        });
+    </script>
+</body>
+</html>

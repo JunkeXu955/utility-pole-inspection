@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+venv/
+.env
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Model files
+*.pt
+*.pth
+*.onnx
+*.engine
+
+# Uploaded and generated files
+uploads/*
+!uploads/.gitkeep
+static/uploads/*
+!static/uploads/.gitkeep
+
+# API keys and sensitive information
+.env
+*.key
+config.ini
+
+# Logs
+*.log
+logs/
+run/
+
+# System files
+.DS_Store
+Thumbs.db 
