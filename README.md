@@ -2,7 +2,7 @@
 
 An intelligent web-based system for automated utility pole inspection using computer vision and AI technologies. This system combines YOLOv8-based damage detection with AI-powered report generation to streamline the inspection process.
 
-![System Overview]([image.png](https://github.com/JunkeXu955/utility-pole-inspection/blob/main/img/Image.jpg))
+![System Overview]([image](https://github.com/JunkeXu955/utility-pole-inspection/blob/main/img/Image.jpg))
 
 ## Features
 
