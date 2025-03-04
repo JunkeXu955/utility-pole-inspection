@@ -13,7 +13,7 @@ app = Flask(__name__)
 logging.basicConfig(level=logging.INFO)
 
 # Initialize Groq client (replace with your actual API key)
-client = Groq(api_key="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")  # Replace with your actual API key
+client = Groq(api_key="")  # Replace with your actual API key
 
 # Load YOLOv8 model (replace with your trained model path)
 model = YOLO('C:/Users/junke/PycharmProjects/pythonProject1/runs/detect/yolov8_damage_detection3/weights/best.pt')
