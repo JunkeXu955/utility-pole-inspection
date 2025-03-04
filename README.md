@@ -107,6 +107,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-Your Name - [@yourusername](https://twitter.com/yourusername)
+Your Name - [@JunkeXu955](https://www.linkedin.com/in/junke-xu-45b516244/)
 
-Project Link: [https://github.com/yourusername/utility-pole-inspection](https://github.com/yourusername/utility-pole-inspection) 
+Project Link: [https://github.com/JunkeXu955/utility-pole-inspection](https://github.com/JunkeXu955/utility-pole-inspection) 
